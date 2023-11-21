@@ -9,7 +9,7 @@ generator1 = [(hr,mn,dy,mt)
     ]
 
 daysOfMonth :: Int -> Int 
-daysOfMonth m 
+daysOfMonth m
     | m `elem` [4,6,9,11] = 30
     | otherwise = 31
 
