@@ -15,7 +15,7 @@ daysOfMonth m
 
 tester1 :: (Int,Int,Int,Int) -> Bool
 tester1 (hr,mn,dy,mt) =
-    magic t1 
+    magic t1
     && magic t2
     && segments t3 == (segments t1 + segments t2) `div` 2 
     where
