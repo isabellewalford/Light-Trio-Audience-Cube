@@ -1,12 +1,4 @@
--- works
-generator1 :: [(Int,Int,Int,Int)]
-generator1 = [(hr,mn,dy,mt)
-    | hr <- [0..23]
-    , mn <- [0..59]
-    , mt <- [1..12]
-    , let days = daysOfMonth mt
-    , dy <- [1..days]
-    ]
+import Data.List
 
 -- works
 daysOfMonth :: Int -> Int 
@@ -15,20 +7,10 @@ daysOfMonth m
     | m `elem` [4,6,9,11] = 30
     | otherwise = 31
 
-tester1 :: (Int,Int,Int,Int) -> Bool
-tester1 (hr,mn,dy,mt) =
-    magic t1 
-    && magic t2
-    && segments t3 == (segments t1 + segments t2) `div` 2 
-    where
-    t1 = (hr,mn,dy,mt)
-    t2 = (hr,mn,(dy+1),mt)
-    t3 = (hr,mn,(dy+1),(mt+1))
-
 magic :: (Int,Int,Int,Int) -> Bool
 magic (hr,mn,dy,mt) = 
-    prime (hr+mn+dy+mt)
-    && nodups ( foldr (++) [] [(digits 1) ++ (digits 1) ++ (digits 1) ++ (digits 1)] )
+    prime (segments(hr,mn,dy,mt))
+    && nodups ( foldr (++) [] [(digits hr) ++ (digits mn) ++ (digits dy) ++ (digits mt)] )
 
 -- works
 prime :: Int -> Bool
@@ -70,9 +52,47 @@ segments :: (Int,Int,Int,Int) -> Int
 segments (hr,mn,dy,mt) =
     sum segmentList
     where
-    digitList = (digits hr) ++ (digits mn) ++ (digits dy) ++ (digits mt)
+    digitList = digits hr ++ digits mn ++ digits dy ++ digits mt
     segmentList = map segment digitList
-     
+
+-- works
+generator1 :: [(Int,Int,Int,Int)]
+generator1 = [(hr,mn,dy,mt)
+    | hr <- [0..23]
+    , mn <- [0..59]
+    , mt <- [1..12]
+    , let days = daysOfMonth mt
+    , dy <- [1..days]
+    ]
+
+tester1 :: (Int,Int,Int,Int) -> Bool
+tester1 (hr,mn,dy,mt) =
+    magic t1 
+    && magic t2
+    && segments t3 == (segments t1 + segments t2) `div` 2 
+    where
+    t1 = (hr,mn,dy,mt)
+    t2 = (hr,mn,(dy+1),mt)
+    t3 = (hr,mn,(dy+1),(mt+1))
+
+x_tester1 :: Int
+x_tester1 =
+    length [ t | t <- ts , tester1 t ]
+    where
+    ts =
+      [ ( 6 ,59 ,17 ,24)
+      , ( 6 ,59 ,17 ,34)
+      , ( 6 ,59 ,27 ,14)
+      , ( 6 ,59 ,27 ,41)
+      , ( 8 ,59 ,12 ,46)
+      , (16 ,59 , 7 ,24)
+      , (16 ,59 , 7 ,42)
+      , (16 ,59 , 7 ,43)
+      , (16 ,59 ,27 ,40)
+      , (18 ,59 , 2 ,46)
+      ]
+
+
 main :: IO ()
 main =
-    print ( filter tester1 generator1 )
+    print (  segments( 6 ,59 ,17 ,24)  )
