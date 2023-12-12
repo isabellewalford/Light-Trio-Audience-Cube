@@ -1,5 +1,5 @@
 import Data.List
-import Data.Fixed
+
 
 generator1 :: [(Int,Int,Int,Int)]
 generator1 = [(hr,mn,dy,mt)
@@ -58,10 +58,25 @@ segments (hr,mn,dy,mt) =
     digitList = digits hr ++ digits mn ++ digits dy ++ digits mt
     segmentList = map segment digitList
 
-toTime :: (Integer, Int, Int) -> (Int, Int, Pico) -> UTCTime
-toTime (year, mon, day) (hour, min, sec) =
-  UTCTime (fromGregorian year mon day)
-          (timeOfDayToTime (TimeOfDay hour min sec))
+check :: (Int,Int,Int,Int) -> (Int,Int,Int,Int)
+check (hr,mn,dy,mt) 
+    | mn < 60 = (hr,mn,dy,mt) 
+    | otherwise = hour(hr+1,0,dy,mt)
+
+hour :: (Int,Int,Int,Int) -> (Int,Int,Int,Int)
+hour (hr,mn,dy,mt) 
+    | hr < 24 = (hr,mn,dy,mt) 
+    | otherwise = day(0,mn,dy+1,mt)
+
+day :: (Int,Int,Int,Int) -> (Int,Int,Int,Int)
+day (hr,mn,dy,mt) 
+    | dy <= daysOfMonth mt = (hr,mn,dy,mt) 
+    | otherwise = day(hr,mn,1,mt+1)
+    
+month :: (Int,Int,Int,Int) -> (Int,Int,Int,Int)
+month (hr,mn,dy,mt) 
+    | mt < 13 = (hr,mn,dy,mt) 
+    | otherwise = day(hr,mn,dy,1)
 
 tester1 :: (Int,Int,Int,Int) -> Bool
 tester1 (hr,mn,dy,mt) =
@@ -70,8 +85,8 @@ tester1 (hr,mn,dy,mt) =
     && segments t3 == (segments t1 + segments t2) `div` 2 
     where
     t1 = (hr,mn,dy,mt)
-    t2 = (hr,mn,(dy+1),mt)
-    t3 = (hr,mn,(dy+1),(mt+1))
+    t2 = check(hr,mn,dy+1,mt)
+    t3 = check(hr,mn+1,dy+1,mt)
 
 x_tester1 :: Int
 x_tester1 =
@@ -92,4 +107,4 @@ x_tester1 =
 
 main :: IO ()
 main =
-    print (  segments( 6 ,59 ,17 ,24)  )
+    print ( filter tester1 generator1 )
