@@ -1,6 +1,5 @@
 import Data.List
 
-
 generator1 :: [(Int,Int,Int,Int)]
 generator1 = [(hr,mn,dy,mt)
     | hr <- [0..23]
