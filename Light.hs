@@ -41,7 +41,7 @@ digits x
     | otherwise = [x `div` 10, x `mod` 10]
 
 
-nodups :: (Eq a, Ord a) => [a] -> Bool
+nodups :: [Int] -> Bool
 nodups = nodups' . sort
   where
     nodups' [] = True
