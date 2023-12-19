@@ -2,6 +2,7 @@ import Data.List
 
 -- Generator
 
+-- find method to do this
 combinations3digit :: [Int]
 combinations3digit = [123,124,125,126,127,128,129,
     134,135,136,137,138,139,
@@ -16,6 +17,7 @@ digits 0
     = []
 digits x = digits (x `div` 10) ++ [x `mod` 10]
 
+-- only finding the first two numbers tuples 
 genTuples :: [Int] -> [([Char], [Char], [Char], [Char], [Char])]
 genTuples [] = []
 genTuples (x:xs) = [(n1,n2,n3,n4,n5)
@@ -35,6 +37,7 @@ genTuples (x:xs) = [(n1,n2,n3,n4,n5)
 generator2 :: [([Char], [Char], [Char], [Char], [Char])]
 generator2 = genTuples combinations3digit
 
+-- coming back 1 
 x_generator2 :: Int
 x_generator2 =
     length [ t | t <- ts , t `elem` g ]
@@ -55,6 +58,7 @@ x_generator2 =
 
 -- Tester
 
+-- working
 tester2 :: ([Char], [Char], [Char], [Char], [Char]) -> Bool
 tester2 (n1, n2, n3, n4, n5) = 
     num1 - num2 == num3

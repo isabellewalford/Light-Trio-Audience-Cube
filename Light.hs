@@ -1,5 +1,7 @@
 import Data.List
 
+-- generator
+
 generator1 :: [(Int,Int,Int,Int)]
 generator1 = [(hr,mn,dy,mt)
     | hr <- [0..23]
@@ -19,6 +21,18 @@ daysOfMonth = memoize daysOfMonth'
 
 memoize :: (Int -> a) -> (Int -> a)
 memoize f = (map f [0 ..] !!)
+
+-- tester
+
+tester1 :: (Int,Int,Int,Int) -> Bool
+tester1 (hr,mn,dy,mt) =
+    magic t1 
+    && magic t2
+    && segments t3 == (segments t1 + segments t2) `div` 2 
+    where
+    t1 = (hr,mn,dy,mt)
+    t2 = check(hr,mn,dy+1,mt)
+    t3 = check(hr,mn+1,dy+1,mt)
 
 magic :: (Int,Int,Int,Int) -> Bool
 magic (hr,mn,dy,mt) = 
@@ -76,16 +90,6 @@ month :: (Int,Int,Int,Int) -> (Int,Int,Int,Int)
 month (hr,mn,dy,mt) 
     | mt <= 12 = (hr,mn,dy,mt) 
     | otherwise = day(hr,mn,dy,mt-12)
-
-tester1 :: (Int,Int,Int,Int) -> Bool
-tester1 (hr,mn,dy,mt) =
-    magic t1 
-    && magic t2
-    && segments t3 == (segments t1 + segments t2) `div` 2 
-    where
-    t1 = (hr,mn,dy,mt)
-    t2 = check(hr,mn,dy+1,mt)
-    t3 = check(hr,mn+1,dy+1,mt)
 
 -- Testing
 
