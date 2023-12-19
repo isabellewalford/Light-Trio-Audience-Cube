@@ -23,7 +23,7 @@ memoize f = (map f [0 ..] !!)
 magic :: (Int,Int,Int,Int) -> Bool
 magic (hr,mn,dy,mt) = 
     prime (segments(hr,mn,dy,mt))
-    && nodups ( foldr (digits . ++) [] [hr ++ mn ++ dy ++ mt] )
+    && nodups ( foldr (++) [] [digits(hr) ++ digits(mn) ++ digits(dy) ++ digits(mt)] )
 
 prime :: Int -> Bool
 prime = 
@@ -91,7 +91,7 @@ tester1 (hr,mn,dy,mt) =
 
 x_generator1 :: Int
 x_generator1 =
-    length [ t | t <- ts , t ‘elem ‘ g ]
+    length [ t | t <- ts , t `elem` g ]
     where
     g = generator1
     ts =
