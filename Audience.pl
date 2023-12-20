@@ -91,4 +91,4 @@ x_tester3_loop([_|TS], C, N) :-
     x_tester3_loop(TS, C, N).
 
 main :-
-    generator3(N), tester(N), write(N).
+    generator3(N), tester3(N), write(N).
