@@ -2,42 +2,43 @@ import Data.List
 
 -- Generator
 
--- find method to do this
-combinations3digit :: [Int]
-combinations3digit = [123,124,125,126,127,128,129,
-    134,135,136,137,138,139,
-    145,146,147,148,149,
-    156,157,158,159,
-    167,168,169,
-    178,179,
-    189]
+combinations3digit :: [String]
+combinations3digit = ["123","124","125","126","127","128","129",
+    "134","135","136","137","138","139",
+    "145","146","147","148","149",
+    "156","157","158","159",
+    "167","168","169",
+    "178","179",
+    "189"]
 
 digits :: Int -> [Int]
 digits 0
     = []
 digits x = digits (x `div` 10) ++ [x `mod` 10]
 
--- only finding the first two numbers tuples 
-genTuples :: [Int] -> [([Char], [Char], [Char], [Char], [Char])]
-genTuples [] = []
-genTuples (x:xs) = [(n1,n2,n3,n4,n5)
-    | n1 <- permutations (show x) 
-    , n2 <- twoDigitPerms 
-    , n3 <- permutations (show x)
+checkFirstDigits :: ([Char], [Char], [Char], [Char], [Char]) -> Bool
+checkFirstDigits (n1,n2,n3,n4,n5) =
+    (head n1) /= (head n2)
+
+
+genTuples :: String -> [([Char], [Char], [Char], [Char], [Char])]
+genTuples x = [(n1,n2,n3,n4,n5)
+    | n1 <- treeDigitPerms
+    , n2 <- twoDigitPerms
+    , n3 <- treeDigitPerms
     , n4 <- twoDigitPerms
-    , n5 <- permutations (show x)
-    ] ++ genTuples xs 
+    , n5 <- treeDigitPerms
+    ]  
     where 
-        numList = digits x
-        n1 = show (head numList)
-        n2 = show (numList !! 1)
-        n3 = show (numList !! 2)
-        twoDigitPerms = (permutations (n1++n2)) ++ (permutations (n1++n3)) ++ (permutations (n2++n3))
+        [n1, n2, n3] = take 3 x
+        twoDigitPerms = (permutations (n1:n2:[])) ++ (permutations (n1:n3:[])) ++ (permutations (n2:n3:[]))
+        treeDigitPerms = permutations x
+
+
 
 generator2 :: [([Char], [Char], [Char], [Char], [Char])]
-generator2 = genTuples combinations3digit
+generator2 = filter checkFirstDigits (concatMap genTuples combinations3digit)
 
--- coming back 1 
 x_generator2 :: Int
 x_generator2 =
     length [ t | t <- ts , t `elem` g ]
