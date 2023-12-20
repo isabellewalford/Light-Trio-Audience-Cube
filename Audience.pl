@@ -49,10 +49,6 @@ last_digit(NS) :-
     last(NS,L),
     L =:= S.
 
-secondLast([X,_], X).
-secondLast([_|T], X) :- 
-    secondLast(T, X).
-
 nThElem([_|LS], I, N) :-
     I > 1,
     nThElem(LS, I-1, N).
@@ -74,7 +70,8 @@ odd(N) :-
     1 is N mod 2.
 
 multiple(F,M) :-
-    M mod F =:= 0.
+    M mod F =:= 0,
+    M =\= 0.
 
 x_tester3(N) :-
 x_tester3_loop(
