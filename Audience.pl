@@ -72,7 +72,7 @@ x_tester3_loop(
     , 148056, 159076, 173096, 189036
     , 193056, 198076], 0, N ).
 
-    x_tester3_loop([], C, C ).
+x_tester3_loop([], C, C ).
 x_tester3_loop([T|TS], C , N ) :-
     tester3(T),
     C1 is C + 1,
