@@ -7,7 +7,6 @@ generator3(T) :-
     between(1000,1000000,T), 
     perfect_square(T).
 
-
 x_generator3(N) :-
     x_generator3_loop(
         [1024, 9409, 23716, 51529
@@ -21,7 +20,6 @@ x_generator3_loop([T|TS], C, N) :-
     x_generator3_loop(TS, C1, N).
 x_generator3_loop([_|TS ], C, N) :-
     x_generator3_loop(TS, C, N).
-
 
 tester3(N) :- 
     digits(N,NS),
@@ -50,10 +48,13 @@ last_digit(NS) :-
     length(NS,S),
     last(NS,L),
     L =:= S.
- 
+
+secondLast([X,_], X).
+secondLast([_|T], X) :- 
+    secondLast(T, X).
+
 multiples_odd([F,S,T,NS]) :-
-    last(NS,NL),
-    last(NL,SL),
+    secondLast(NS, SL),
     odd(SL),
     multiple(F,S),
     multiple(F,T),
@@ -78,7 +79,7 @@ x_tester3_loop([T|TS], C , N ) :-
     C1 is C + 1,
     x_tester3_loop(TS, C1, N).
 x_tester3_loop([_|TS], C, N) :-
-x_tester3_loop(TS, C, N).
+    x_tester3_loop(TS, C, N).
 
 main :-
     generator3(N), tester(N), write(N).
