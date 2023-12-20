@@ -56,18 +56,22 @@ secondLast([_|T], X) :-
 nThElem([_|LS], I, N) :-
     I > 1,
     nThElem(LS, I-1, N).
-ThElem([L|_], _, L).
+nThElem([L|_], _, L).
 
-multiples_odd([F,S,T|NS]) :-
-    secondLast([F,S,T|NS],SL),
+multiples_odd(NS) :-
+    nThElem(NS,1,F),
+    nThElem(NS,2,S),
+    nThElem(NS,3,T),
+    length(NS,L),
+    nThElem(NS,L-1,SL),
+    !,
     odd(SL),
     multiple(F,S),
     multiple(F,T),
     multiple(F,SL).
 
 odd(N) :-
-    H is N div 2,
-    floor(H) =:= H.
+    1 is N mod 2.
 
 multiple(F,M) :-
     M mod F =:= 0.
