@@ -53,8 +53,13 @@ secondLast([X,_], X).
 secondLast([_|T], X) :- 
     secondLast(T, X).
 
-multiples_odd([F,S,T|_]) :-
-    secondLast([F,S,T|_],SL),
+nThElem([_|LS], I, N) :-
+    I > 1,
+    nThElem(LS, I-1, N).
+ThElem([L|_], _, L).
+
+multiples_odd([F,S,T|NS]) :-
+    secondLast([F,S,T|NS],SL),
     odd(SL),
     multiple(F,S),
     multiple(F,T),
