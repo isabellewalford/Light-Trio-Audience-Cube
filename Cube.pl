@@ -57,6 +57,8 @@ perfect_cube(N) :-
     S is floor(N**(1/3)),
     N is S * S * S.
 
+% cubes predicate checks for cubes in a list of numbers using perfect_cube
+
 insertPrimes(E, [], [E]).
 insertPrimes(E, [H|T], [E,H|T]) :-
     number(E,NE),
@@ -72,6 +74,17 @@ sortPrimes([],[]).
 sortPrimes([H|T], X) :-
     sortPrimes(T,W),
     insertPrimes(H,W,X).
+
+
+removeSmallest([_|NS],W) :-
+    W is NS.
+
+
+tester4(N) :-
+    sortPrimes(N,NS),
+    removeSmallest(NS,XS),
+    removeBrackets(XS,_).
+    %cubes(X)
 
 x_tester4(N) :-
     x_tester4_loop(
