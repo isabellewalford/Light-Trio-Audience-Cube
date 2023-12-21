@@ -1,36 +1,35 @@
-isPrime(2) :-
-    !.
-isPrime(3) :-
-    !.
-isPrime(X) :-
-    X > 3,
-    X mod 2 =\= 0,
-    isPrime_(X, 3).
-
-isPrime_(X, N) :-
-    ( N*N > X
-    -> true
-    ;  X mod N =\= 0,
-       M is N + 2,
-       isPrime_(X, M)
-    ).
+isPrime(A):-
+    not((A1 is A-1,
+        between(2,A1,N), 
+        0 is mod(A,N))),
+        not(A is 1).
  
+checkPrime(P) :-
+    length(P,L),
+    L =< 4,
+    number(P,N),
+    isPrime(N).
 
+number(L, N) :-
+    number(L, 0, N).
 
+number([], A, A).
+number([H|T], A, N) :-
+    C is 10*A + H,
+    number(T, C, N).
 
-generator4([N]) :-
-    permutation([0,1,2,3,4,5,6,7,8,9], removeBrackets(N)),
-    checkPrimes(N)
-    .
-
+primes(N) :-
+    maplist(checkPrime, N).
     
-digits(N, [N]) :-
-    N < 10.
-digits(N, W) :-
-    N >= 10,
-    div_mod(N, 10, D, M),
-    digits(D, R),
-    append(R, [M], W).
+removeBrackets([N],N).
+removeBrackets([H|T],W) :-
+    removeBrackets(T,U),
+    append(H,U,W).
+
+generator4(N) :-
+    removeBrackets(N,L),
+    permutation([0,1,2,3,4,5,6,7,8,9], L),
+    primes(N).
 
 
 x_generator4(N) :-
@@ -58,13 +57,7 @@ x_generator4_loop([_|TS], C, N) :-
 
 tester4(N) :-
 
-number(L, N) :-
-    number(L, 0, N).
 
-number([], A, A).
-number([H|T], A, N) :-
-    C is 10*A + H,
-    number(T, C, N).
 
 insertPrimes(E, [], [E]).
 insertPrimes(E, [H|T], [E,H|T]) :-
@@ -81,6 +74,8 @@ sortPrimes([],[]).
 sortPrimes([H|T], X) :-
     sortPrimes(T,W)
     insertPrimes(H,W,X).
+
+cube(N)
 
 x_tester4(N) :-
     x_tester4_loop(
