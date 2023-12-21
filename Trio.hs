@@ -34,8 +34,6 @@ genTuples x = [(n1,n2,n3,n4,n5)
         twoDigitPerms = (permutations (n1:n2:[])) ++ (permutations (n1:n3:[])) ++ (permutations (n2:n3:[]))
         treeDigitPerms = permutations x
 
-
-
 generator2 :: [([Char], [Char], [Char], [Char], [Char])]
 generator2 = filter checkFirstDigits (concatMap genTuples combinations3digit)
 
@@ -59,7 +57,6 @@ x_generator2 =
 
 -- Tester
 
--- working
 tester2 :: ([Char], [Char], [Char], [Char], [Char]) -> Bool
 tester2 (n1, n2, n3, n4, n5) = 
     num1 - num2 == num3
