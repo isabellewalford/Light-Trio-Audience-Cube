@@ -57,6 +57,11 @@ x_generator4_loop([_|TS], C, N) :-
 
 tester4(N) :-
 
+perfect_cube(N) :-
+    between(1, inf, N),
+    S is floor(N**(1/3)),
+    N is S * S * S.
+
 
 
 insertPrimes(E, [], [E]).
@@ -75,7 +80,7 @@ sortPrimes([H|T], X) :-
     sortPrimes(T,W)
     insertPrimes(H,W,X).
 
-cube(N)
+
 
 x_tester4(N) :-
     x_tester4_loop(
