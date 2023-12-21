@@ -26,11 +26,10 @@ removeBrackets([H|T],W) :-
     removeBrackets(T,U),
     append(H,U,W).
 
-generator4(N) :-
-    removeBrackets(N,L),
+generator4(N) :- % only checks if correct format
+    removeBrackets(N,L), 
     permutation([0,1,2,3,4,5,6,7,8,9], L),
     primes(N).
-
 
 x_generator4(N) :-
     x_generator4_loop(
@@ -53,16 +52,10 @@ x_generator4_loop(TS, C1, N).
 x_generator4_loop([_|TS], C, N) :-
     x_generator4_loop(TS,C,N).
 
-
-
-tester4(N) :-
-
 perfect_cube(N) :-
     between(1, inf, N),
     S is floor(N**(1/3)),
     N is S * S * S.
-
-
 
 insertPrimes(E, [], [E]).
 insertPrimes(E, [H|T], [E,H|T]) :-
@@ -77,10 +70,8 @@ insertPrimes(E, [H|T], [H|W]) :-
 
 sortPrimes([],[]).
 sortPrimes([H|T], X) :-
-    sortPrimes(T,W)
+    sortPrimes(T,W),
     insertPrimes(H,W,X).
-
-
 
 x_tester4(N) :-
     x_tester4_loop(
